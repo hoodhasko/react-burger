@@ -1,0 +1,15 @@
+.menuButton {
+  composes: p-5 from global;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menuButtonText {
+  composes: text text_type_main-default text_color_inactive ml-2 from global;
+}
+
+.menuButtonTextActive {
+  composes: text text_type_main-default ml-2 from global;
+}
