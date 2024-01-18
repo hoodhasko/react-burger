@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import { GroupNames, GroupTypes, data } from "../../utils/data";
 import { BurgerIngredientsTabs } from "../ingredients-tabs/ingredients-tabs";
 import { BurgerIngredientsGroup } from "../ingredients-group/ingredients-group";
+import { Ingredient, IngredientType } from "../../types/Ingredient";
 
 import styles from "./ingredients.module.css";
-import { Ingredient, IngredientType } from "../../types/Ingredient";
 
 export const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);

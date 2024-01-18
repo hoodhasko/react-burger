@@ -1,6 +1,6 @@
 .container {
   composes: pt-10 mb-10 from global;
-  width: 600px;
+  flex: 1;
 }
 
 .title {
