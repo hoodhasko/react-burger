@@ -1,4 +1,6 @@
-export const data = [
+import { Ingredient, IngredientType } from "../types/Ingredient";
+
+export const data: Ingredient[] = [
   {
     _id: "60666c42cc7b410027a1a9b1",
     name: "Краторная булка N-200i",
@@ -212,3 +214,10 @@ export const data = [
     __v: 0,
   },
 ];
+
+export const GroupTypes: IngredientType[] = ["bun", "sauce", "main"];
+export const GroupNames: { [key in IngredientType]: string } = {
+  bun: "Булки",
+  sauce: "Соусы",
+  main: "Начинки",
+};

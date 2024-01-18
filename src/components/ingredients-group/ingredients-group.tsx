@@ -1,11 +1,22 @@
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 
 import { BurgerIngredientCard } from "../ingredient-card/ingredient-card";
+import { Ingredient } from "../../types/Ingredient";
 
 import styles from "./ingredients-group.module.css";
 
-export const BurgerIngredientsGroup = ({ groupName, groupData, scroll }) => {
-  const groupRef = useRef(null);
+interface BurgerIngredientsGroupProps {
+  groupName: string;
+  groupData: Ingredient[];
+  scroll: boolean;
+}
+
+export const BurgerIngredientsGroup: FC<BurgerIngredientsGroupProps> = ({
+  groupName,
+  groupData,
+  scroll,
+}) => {
+  const groupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (groupRef.current && scroll) {
@@ -15,9 +26,7 @@ export const BurgerIngredientsGroup = ({ groupName, groupData, scroll }) => {
 
   return (
     <div className={`mb-10`} ref={groupRef}>
-      <h3 ref={groupRef} className={styles.groupTitle}>
-        {groupName}
-      </h3>
+      <h3 className={styles.groupTitle}>{groupName}</h3>
 
       <div className={styles.cardsContainer}>
         {groupData.map((ingredient) => (

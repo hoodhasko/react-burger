@@ -1,11 +1,20 @@
+import { FC } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { Ingredient } from "../../types/Ingredient";
+
 import styles from "./ingredient-card.module.css";
 
-export const BurgerIngredientCard = ({ ingredient }) => {
+interface BurgerIngredientCardProps {
+  ingredient: Ingredient;
+}
+
+export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
+  ingredient,
+}) => {
   return (
     <div className={styles.ingredientCard}>
       <Counter count={1} size="default" extraClass="m-1" />

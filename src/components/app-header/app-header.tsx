@@ -5,6 +5,7 @@ import {
 
 import { HeaderMenu } from "../header-menu/header-menu";
 import { MenuButton } from "../menu-button/menu-button";
+
 import styles from "./app-header.module.css";
 
 export const AppHeader = () => {
@@ -13,7 +14,10 @@ export const AppHeader = () => {
       <div className={styles.container}>
         <HeaderMenu />
         <Logo />
-        <MenuButton text="Личный кабинет" icon={<ProfileIcon />} />
+        <MenuButton
+          text="Личный кабинет"
+          icon={<ProfileIcon type="secondary" />}
+        />
       </div>
     </header>
   );

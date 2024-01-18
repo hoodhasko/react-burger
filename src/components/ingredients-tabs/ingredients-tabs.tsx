@@ -1,8 +1,17 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Dispatch, FC, SetStateAction } from "react";
 
 import styles from "./ingredients-tabs.module.css";
+import { IngredientType } from "../../types/Ingredient";
 
-export const BurgerIngredientsTabs = ({
+interface BurgerIngredientsTabsProps {
+  currentTab: string;
+  groupTypes: IngredientType[];
+  groupNames: { [key in IngredientType]: string };
+  onTabClick: Dispatch<SetStateAction<IngredientType>>;
+}
+
+export const BurgerIngredientsTabs: FC<BurgerIngredientsTabsProps> = ({
   currentTab,
   groupTypes,
   groupNames,

@@ -1,30 +1,24 @@
 import { useMemo, useState } from "react";
 
-import { data } from "../../utils/data";
+import { GroupNames, GroupTypes, data } from "../../utils/data";
 import { BurgerIngredientsTabs } from "../ingredients-tabs/ingredients-tabs";
 import { BurgerIngredientsGroup } from "../ingredients-group/ingredients-group";
 
 import styles from "./ingredients.module.css";
-
-const groupTypes = ["bun", "sauce", "main"];
-const groupNames = {
-  bun: "Булки",
-  sauce: "Соусы",
-  main: "Начинки",
-};
+import { Ingredient, IngredientType } from "../../types/Ingredient";
 
 export const BurgerIngredients = () => {
-  const [currentTab, setCurrentTab] = useState(groupTypes[0]);
+  const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);
 
   const groupedData = useMemo(
     () =>
-      data.reduce((acc, item) => {
+      data.reduce<{ [key in IngredientType]: Ingredient[] }>((acc, item) => {
         if (!acc[item.type]) {
           acc[item.type] = [];
         }
         acc[item.type].push(item);
         return acc;
-      }, {}),
+      }, {} as { [key in IngredientType]: Ingredient[] }),
     [data]
   );
 
@@ -34,16 +28,16 @@ export const BurgerIngredients = () => {
 
       <BurgerIngredientsTabs
         currentTab={currentTab}
-        groupTypes={groupTypes}
-        groupNames={groupNames}
+        groupTypes={GroupTypes}
+        groupNames={GroupNames}
         onTabClick={setCurrentTab}
       />
       <div className={styles.scrollBar}>
-        {groupTypes.map((groupType) => (
+        {GroupTypes.map((groupType) => (
           <BurgerIngredientsGroup
             key={groupType}
             groupData={groupedData[groupType]}
-            groupName={groupNames[groupType]}
+            groupName={GroupNames[groupType]}
             scroll={currentTab === groupType}
           />
         ))}
