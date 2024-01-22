@@ -10,13 +10,15 @@ import styles from "./ingredient-card.module.css";
 
 interface BurgerIngredientCardProps {
   ingredient: Ingredient;
+  onClick: () => void;
 }
 
 export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
   ingredient,
+  onClick,
 }) => {
   return (
-    <div className={styles.ingredientCard}>
+    <div className={styles.ingredientCard} onClick={onClick}>
       <Counter count={1} size="default" extraClass="m-1" />
 
       <img

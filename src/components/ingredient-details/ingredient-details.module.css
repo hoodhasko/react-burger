@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.propertiesList {
+  composes: pt-8 from global;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.propertiesListItem {
+  text-align: center;
+  min-width: 100px;
+}

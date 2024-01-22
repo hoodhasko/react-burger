@@ -4,6 +4,8 @@ import { GroupNames, GroupTypes } from "../../utils/data";
 import { BurgerIngredientsTabs } from "../ingredients-tabs/ingredients-tabs";
 import { BurgerIngredientsGroup } from "../ingredients-group/ingredients-group";
 import { Ingredient, IngredientType } from "../../types/Ingredient";
+import { Modal } from "../modal/modal";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 import styles from "./ingredients.module.css";
 
@@ -13,6 +15,8 @@ interface BurgerIngredientsProps {
 
 export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ data }) => {
   const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);
+  const [selectedingredient, setSelectedIngredient] =
+    useState<Ingredient | null>(null);
 
   const groupedData = useMemo(
     () =>
@@ -26,8 +30,21 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ data }) => {
     [data]
   );
 
+  const ingredientClickHandler = (ingredient: Ingredient) => {
+    setSelectedIngredient(ingredient);
+  };
+
   return (
     <section className={styles.container}>
+      <Modal
+        open={!!selectedingredient}
+        onClose={() => setSelectedIngredient(null)}
+        title="Детали ингредиента"
+      >
+        {selectedingredient && (
+          <IngredientDetails ingredient={selectedingredient} />
+        )}
+      </Modal>
       <h1 className={styles.title}>Соберите бургер</h1>
 
       <BurgerIngredientsTabs
@@ -43,6 +60,7 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ data }) => {
             groupData={groupedData[groupType]}
             groupName={GroupNames[groupType]}
             scroll={currentTab === groupType}
+            onClick={ingredientClickHandler}
           />
         ))}
       </div>

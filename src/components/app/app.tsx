@@ -28,6 +28,8 @@ export const App = () => {
             <BurgerConstructor data={data} />
           </>
         )}
+
+        <div id="react-modals"></div>
       </div>
     </>
   );

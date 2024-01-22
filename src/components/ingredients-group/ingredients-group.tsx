@@ -9,12 +9,14 @@ interface BurgerIngredientsGroupProps {
   groupName: string;
   groupData: Ingredient[];
   scroll: boolean;
+  onClick: (ingredient: Ingredient) => void;
 }
 
 export const BurgerIngredientsGroup: FC<BurgerIngredientsGroupProps> = ({
   groupName,
   groupData,
   scroll,
+  onClick,
 }) => {
   const groupRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +32,11 @@ export const BurgerIngredientsGroup: FC<BurgerIngredientsGroupProps> = ({
 
       <div className={styles.cardsContainer}>
         {groupData.map((ingredient) => (
-          <BurgerIngredientCard key={ingredient._id} ingredient={ingredient} />
+          <BurgerIngredientCard
+            key={ingredient._id}
+            ingredient={ingredient}
+            onClick={() => onClick(ingredient)}
+          />
         ))}
       </div>
     </div>
