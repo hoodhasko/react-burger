@@ -3,8 +3,8 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { HeaderMenu } from "../header-menu/header-menu";
-import { MenuButton } from "../menu-button/menu-button";
+import { HeaderMenu } from "./header-menu/header-menu";
+import { MenuButton } from "./menu-button/menu-button";
 
 import styles from "./app-header.module.css";
 

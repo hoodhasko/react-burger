@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-import { Ingredient } from "../../types/Ingredient";
+import { Ingredient } from "../../../types/Ingredient";
 import {
   INGREDIENT_PROPIERTIES,
   INGREDIENT_PROPIERTIES_TITLES,
-} from "../../config/constants";
+} from "../../../config/constants";
 
 import styles from "./ingredient-details.module.css";
 

@@ -2,7 +2,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Dispatch, FC, SetStateAction } from "react";
 
 import styles from "./ingredients-tabs.module.css";
-import { IngredientType } from "../../types/Ingredient";
+import { IngredientType } from "../../../types/Ingredient";
 
 interface BurgerIngredientsTabsProps {
   currentTab: string;

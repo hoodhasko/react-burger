@@ -1,11 +1,11 @@
 import { FC, useMemo, useState } from "react";
 
 import { GroupNames, GroupTypes } from "../../utils/data";
-import { BurgerIngredientsTabs } from "../ingredients-tabs/ingredients-tabs";
-import { BurgerIngredientsGroup } from "../ingredients-group/ingredients-group";
+import { BurgerIngredientsTabs } from "./ingredients-tabs/ingredients-tabs";
+import { BurgerIngredientsGroup } from "./ingredients-group/ingredients-group";
+import { IngredientDetails } from "./ingredient-details/ingredient-details";
 import { Ingredient, IngredientType } from "../../types/Ingredient";
 import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 import styles from "./ingredients.module.css";
 

@@ -4,7 +4,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { Ingredient } from "../../types/Ingredient";
+import { Ingredient } from "../../../types/Ingredient";
 
 import styles from "./ingredient-card.module.css";
 

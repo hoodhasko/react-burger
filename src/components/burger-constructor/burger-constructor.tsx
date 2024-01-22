@@ -1,11 +1,13 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { ConstructorTotal } from "../constructor-total/constructor-total";
+import { ConstructorTotal } from "./constructor-total/constructor-total";
 import { Ingredient } from "../../types/Ingredient";
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "./order-details/order-details";
 
 import styles from "./burger-constructor.module.css";
 

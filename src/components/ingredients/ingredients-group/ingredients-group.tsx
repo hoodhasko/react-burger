@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from "react";
 
 import { BurgerIngredientCard } from "../ingredient-card/ingredient-card";
-import { Ingredient } from "../../types/Ingredient";
+import { Ingredient } from "../../../types/Ingredient";
 
 import styles from "./ingredients-group.module.css";
 
