@@ -1,13 +1,17 @@
-import { useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 
-import { GroupNames, GroupTypes, data } from "../../utils/data";
+import { GroupNames, GroupTypes } from "../../utils/data";
 import { BurgerIngredientsTabs } from "../ingredients-tabs/ingredients-tabs";
 import { BurgerIngredientsGroup } from "../ingredients-group/ingredients-group";
 import { Ingredient, IngredientType } from "../../types/Ingredient";
 
 import styles from "./ingredients.module.css";
 
-export const BurgerIngredients = () => {
+interface BurgerIngredientsProps {
+  data: Ingredient[];
+}
+
+export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ data }) => {
   const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);
 
   const groupedData = useMemo(

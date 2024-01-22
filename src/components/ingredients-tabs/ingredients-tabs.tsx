@@ -21,6 +21,7 @@ export const BurgerIngredientsTabs: FC<BurgerIngredientsTabsProps> = ({
     <div className={styles.tabsContainer}>
       {groupTypes.map((groupType) => (
         <Tab
+          key={groupType}
           value="bun"
           active={currentTab === groupType}
           onClick={() => onTabClick(groupType)}

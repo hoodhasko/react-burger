@@ -1,14 +1,19 @@
+import { FC } from "react";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { data } from "../../utils/data";
 import { ConstructorTotal } from "../constructor-total/constructor-total";
+import { Ingredient } from "../../types/Ingredient";
 
 import styles from "./burger-constructor.module.css";
 
-export const BurgerConstructor = () => {
+interface BurgerConstructorProps {
+  data: Ingredient[];
+}
+
+export const BurgerConstructor: FC<BurgerConstructorProps> = ({ data }) => {
   return (
     <section className={styles.container}>
       <div className={styles.ingredientsContainer}>
