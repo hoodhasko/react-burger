@@ -1,0 +1,28 @@
+.ingredientCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 47%;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.cardImage {
+  composes: pl-4 pr-4 from global;
+}
+
+.priceContainer {
+  composes: pt-1 from global;
+  display: flex;
+  align-items: center;
+}
+
+.price {
+  composes: text text_type_digits-default mr-2 from global;
+}
+
+.ingredientName {
+  composes: text text_type_main-default mt-1 from global;
+  text-align: center;
+}

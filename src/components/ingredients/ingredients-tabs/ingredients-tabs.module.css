@@ -1,0 +1,4 @@
+.tabsContainer {
+  composes: mt-5 from global;
+  display: flex;
+}

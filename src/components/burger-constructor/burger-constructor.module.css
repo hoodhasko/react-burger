@@ -1,0 +1,39 @@
+.container {
+  composes: mt-25 pl-4 pr-4 from global;
+  flex: 1;
+}
+
+.ingredientsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 50vh;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+}
+
+.ingredientsList::-webkit-scrollbar-track {
+  background: rgba(47, 47, 55, 1); /* color of the tracking area */
+}
+
+.ingredientsList::-webkit-scrollbar {
+  width: 8px; /* width of the entire scrollbar */
+}
+
+.ingredientsList::-webkit-scrollbar-thumb {
+  background-color: rgba(133, 133, 173, 1); /* color of the scroll thumb */
+}
+
+.ingredientsListItem {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}

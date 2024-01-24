@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.orderNumber {
+  composes: text text_type_digits-large mt-20 from global;
+
+  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25);
+  text-shadow: 0 0 8px rgba(51, 51, 255, 0.25);
+  text-shadow: 0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.doneContainer {
+  composes: mt-15 from global;
+  position: relative;
+}
+
+.checkIconContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

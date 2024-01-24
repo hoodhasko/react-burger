@@ -1,0 +1,27 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background-color: rgba(28, 28, 33, 1);
+  padding: 40px;
+  border-radius: 40px;
+  width: 40%;
+  z-index: 1;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modalCloseButton {
+  cursor: pointer;
+  background-color: transparent;
+  border-width: 0;
+}
