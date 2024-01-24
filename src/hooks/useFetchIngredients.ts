@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Ingredient } from "../types/Ingredient";
 import { IngredientResponse } from "../types/response";
 import { BASE_URL } from "../config/constants";
+import { checkReponse } from "../utils/checkResponse";
 
 export function useFetchIngredients() {
   const [data, setData] = useState<Ingredient[]>([]);
@@ -14,7 +15,7 @@ export function useFetchIngredients() {
     setIsError(false);
 
     fetch(`${BASE_URL}/ingredients`)
-      .then((response) => response.json())
+      .then(checkReponse)
       .then((data: IngredientResponse) => {
         setData(data.data);
       })
