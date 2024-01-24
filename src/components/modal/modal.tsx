@@ -34,7 +34,7 @@ export const Modal: FC<ModalProps> = ({ open, onClose, title, children }) => {
   }
 
   return createPortal(
-    <div onClick={(e) => e.stopPropagation()} className={styles.modal}>
+    <div className={styles.modal}>
       <ModalOverlay onClose={onClose} />
       <div onClick={(e) => e.stopPropagation()} className={styles.modalContent}>
         <div className={styles.modalHeader}>
