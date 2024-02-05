@@ -6,45 +6,52 @@ import { BurgerIngredientsGroup } from "./ingredients-group/ingredients-group";
 import { IngredientDetails } from "./ingredient-details/ingredient-details";
 import { Ingredient, IngredientType } from "../../types/Ingredient";
 import { Modal } from "../modal/modal";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setCurrentIngredient } from "../../services";
 
 import styles from "./ingredients.module.css";
 
-interface BurgerIngredientsProps {
-  data: Ingredient[];
-}
+interface BurgerIngredientsProps {}
 
-export const BurgerIngredients: FC<BurgerIngredientsProps> = ({ data }) => {
+export const BurgerIngredients: FC<BurgerIngredientsProps> = ({}) => {
   const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);
-  const [selectedingredient, setSelectedIngredient] =
-    useState<Ingredient | null>(null);
+
+  const { ingredients, currentIngredient } = useAppSelector(
+    (state) => state.ingredient
+  );
+
+  const dispatch = useAppDispatch();
 
   const groupedData = useMemo(
     () =>
-      data.reduce<{ [key in IngredientType]: Ingredient[] }>((acc, item) => {
-        if (!acc[item.type]) {
-          acc[item.type] = [];
-        }
-        acc[item.type].push(item);
-        return acc;
-      }, {} as { [key in IngredientType]: Ingredient[] }),
-    [data]
+      ingredients.reduce<{ [key in IngredientType]: Ingredient[] }>(
+        (acc, item) => {
+          if (!acc[item.type]) {
+            acc[item.type] = [];
+          }
+          acc[item.type].push(item);
+          return acc;
+        },
+        {} as { [key in IngredientType]: Ingredient[] }
+      ),
+    [ingredients]
   );
 
-  const ingredientClickHandler = (ingredient: Ingredient) => {
-    setSelectedIngredient(ingredient);
+  const ingredientClickHandler = (ingredient: Ingredient | null) => {
+    dispatch(setCurrentIngredient(ingredient));
   };
 
   return (
     <section className={styles.container}>
-      <Modal
-        open={!!selectedingredient}
-        onClose={() => setSelectedIngredient(null)}
-        title="Детали ингредиента"
-      >
-        {selectedingredient && (
-          <IngredientDetails ingredient={selectedingredient} />
-        )}
-      </Modal>
+      {currentIngredient && (
+        <Modal
+          onClose={() => ingredientClickHandler(null)}
+          title="Детали ингредиента"
+        >
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
+
       <h1 className={styles.title}>Соберите бургер</h1>
 
       <BurgerIngredientsTabs

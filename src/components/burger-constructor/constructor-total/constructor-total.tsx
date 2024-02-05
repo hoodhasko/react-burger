@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Button,
   CurrencyIcon,
@@ -7,6 +7,7 @@ import {
 import { Modal } from "../../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import styles from "./constructor-total.module.css";
+import { useFetchCreateOrder } from "../../../hooks/useFetchCreateOrder";
 
 interface ConstructorTotalProps {
   total: number;
@@ -15,11 +16,25 @@ interface ConstructorTotalProps {
 export const ConstructorTotal: FC<ConstructorTotalProps> = ({ total }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const { getData, data, isError, isLoading } = useFetchCreateOrder([
+    "643d69a5c3f7b9001cfa093c",
+    "643d69a5c3f7b9001cfa0941",
+    "643d69a5c3f7b9001cfa093c",
+  ]);
+
+  useEffect(() => {
+    if (data) {
+      setIsOpen(true);
+    }
+  }, [data]);
+
   return (
     <>
-      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <OrderDetails />
-      </Modal>
+      {data && (
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+          <OrderDetails orderNumber={data.order.number} />
+        </Modal>
+      )}
 
       <div className={styles.container}>
         <div className={styles.totalPriceContainer}>
@@ -31,7 +46,7 @@ export const ConstructorTotal: FC<ConstructorTotalProps> = ({ total }) => {
           type="primary"
           size="large"
           extraClass={styles.button}
-          onClick={() => setIsOpen(true)}
+          onClick={getData}
         >
           Оформить заказ
         </Button>
