@@ -33,6 +33,13 @@ export const ConstructorItem: FC<ConstructorItemProps> = ({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    end: (item, monitor) => {
+      const { id: droppedId } = item;
+      const didDrop = monitor.didDrop();
+      if (!didDrop) {
+        moveItem(droppedId, index);
+      }
+    },
   }));
 
   const moveItem = useCallback((dragId: string, hoverIndex: number) => {
@@ -66,7 +73,6 @@ export const ConstructorItem: FC<ConstructorItemProps> = ({
       className={styles.ingredientsListItem}
       style={{ opacity: isDragging ? 0 : 1 }}
     >
-      <p style={{ color: "white" }}>{index}</p>
       <DragIcon type="primary" />
       <ConstructorElement
         extraClass="ml-2"

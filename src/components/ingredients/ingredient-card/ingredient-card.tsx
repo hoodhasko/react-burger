@@ -3,21 +3,20 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDrag } from "react-dnd";
 
 import { Ingredient } from "../../../types/Ingredient";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { setCurrentIngredient } from "../../../services";
 
 import styles from "./ingredient-card.module.css";
-import { useDrag } from "react-dnd";
-import { useAppSelector } from "../../../hooks";
 
 interface BurgerIngredientCardProps {
   ingredient: Ingredient;
-  onClick: () => void;
 }
 
 export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
   ingredient,
-  onClick,
 }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "ingredient",
@@ -30,6 +29,7 @@ export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
   const { bun, items } = useAppSelector(
     (state) => state.ingredient.constructorIngredients
   );
+  const dispatch = useAppDispatch();
 
   const count = useMemo(() => {
     if (ingredient.type === "bun") {
@@ -39,8 +39,16 @@ export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
     }
   }, [ingredient, bun, items]);
 
+  const ingredientClickHandler = () => {
+    dispatch(setCurrentIngredient(ingredient));
+  };
+
   return (
-    <div ref={drag} className={styles.ingredientCard} onClick={onClick}>
+    <div
+      ref={drag}
+      className={styles.ingredientCard}
+      onClick={ingredientClickHandler}
+    >
       {Boolean(count) && (
         <Counter count={count} size="default" extraClass="m-1" />
       )}

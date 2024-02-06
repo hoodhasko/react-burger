@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 
 import { GroupNames, GroupTypes } from "../../utils/data";
 import { BurgerIngredientsTabs } from "./ingredients-tabs/ingredients-tabs";
@@ -15,6 +15,7 @@ interface BurgerIngredientsProps {}
 
 export const BurgerIngredients: FC<BurgerIngredientsProps> = ({}) => {
   const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);
+  const groupRef = useRef<HTMLDivElement>(null);
 
   const { ingredients, currentIngredient } = useAppSelector(
     (state) => state.ingredient
@@ -37,37 +38,32 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({}) => {
     [ingredients]
   );
 
-  const ingredientClickHandler = (ingredient: Ingredient | null) => {
-    dispatch(setCurrentIngredient(ingredient));
-  };
-
   return (
     <section className={styles.container}>
       {currentIngredient && (
         <Modal
-          onClose={() => ingredientClickHandler(null)}
+          onClose={() => dispatch(setCurrentIngredient(null))}
           title="Детали ингредиента"
         >
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>
       )}
-
       <h1 className={styles.title}>Соберите бургер</h1>
-
       <BurgerIngredientsTabs
         currentTab={currentTab}
         groupTypes={GroupTypes}
         groupNames={GroupNames}
         onTabClick={setCurrentTab}
       />
-      <div className={styles.scrollBar}>
+      <div ref={groupRef} className={styles.scrollBar}>
         {GroupTypes.map((groupType) => (
           <BurgerIngredientsGroup
             key={groupType}
+            groupRef={groupRef.current}
             groupData={groupedData[groupType]}
             groupName={GroupNames[groupType]}
             scroll={currentTab === groupType}
-            onClick={ingredientClickHandler}
+            setCurrentTab={() => setCurrentTab(groupType)}
           />
         ))}
       </div>
