@@ -1,1 +1,1 @@
-export * from "./ingredient.api";
+export * from "./api";

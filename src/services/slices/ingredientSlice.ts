@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+
 import { Ingredient } from "../../types/Ingredient";
 import { OrderResponse } from "../../types/response";
 import { fetchIngredients } from "../actions";
-import { v4 as uuidv4 } from "uuid";
+
+export interface IConstructorItem extends Ingredient {
+  id: string;
+}
 
 export interface ingredientState {
   ingredients: Ingredient[];
@@ -11,7 +16,7 @@ export interface ingredientState {
 
   constructorIngredients: {
     bun: Ingredient | null;
-    items: Array<Ingredient & { id: string }>;
+    items: IConstructorItem[];
   };
   currentIngredient: Ingredient | null;
   order: OrderResponse | null;
@@ -43,9 +48,26 @@ export const ingredientSlice = createSlice({
       } else {
         state.constructorIngredients.items = [
           ...state.constructorIngredients.items,
-          { ...action.payload, id: uuidv4() },
+          {
+            ...action.payload,
+            id: uuidv4(),
+          },
         ];
       }
+    },
+    sortConstructorIngredients: (
+      state,
+      action: PayloadAction<{ id: string; toIndex: number }>
+    ) => {
+      const { toIndex, id } = action.payload;
+      const fromIndex = state.constructorIngredients.items.findIndex(
+        (item) => item.id === id
+      );
+      const items = [...state.constructorIngredients.items];
+
+      items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
+
+      state.constructorIngredients.items = items;
     },
     deleteConstructorIngredient: (
       state,
@@ -78,6 +100,7 @@ export const ingredientSlice = createSlice({
 export const {
   setCurrentIngredient,
   setConstructorIngredients,
+  sortConstructorIngredients,
   deleteConstructorIngredient,
 } = ingredientSlice.actions;
 

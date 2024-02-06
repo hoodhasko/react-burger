@@ -1,8 +1,5 @@
 import { FC, useMemo } from "react";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from "react-dnd";
 
 import { ConstructorTotal } from "./constructor-total/constructor-total";
@@ -13,6 +10,7 @@ import {
 } from "../../services";
 import { Ingredient } from "../../types/Ingredient";
 import { ConstructorEmptyElement } from "./constructor-empty-element/constructor-empty-element";
+import { ConstructorItem } from "./constructor-item/constructor-item";
 
 import styles from "./burger-constructor.module.css";
 
@@ -69,17 +67,13 @@ export const BurgerConstructor: FC<BurgerConstructorProps> = ({}) => {
 
         {constructorIngredients.items.length > 0 ? (
           <ul className={styles.ingredientsList}>
-            {constructorIngredients.items.map((ingredient) => (
-              <li key={ingredient.id} className={styles.ingredientsListItem}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  extraClass="ml-2"
-                  text={ingredient.name}
-                  price={ingredient.price}
-                  thumbnail={ingredient.image}
-                  handleClose={() => deleteIngredientHandler(ingredient.id)}
-                />
-              </li>
+            {constructorIngredients.items.map((ingredient, index) => (
+              <ConstructorItem
+                key={ingredient.id}
+                ingredient={ingredient}
+                index={index}
+                onDelete={deleteIngredientHandler}
+              />
             ))}
           </ul>
         ) : (

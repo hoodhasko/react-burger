@@ -31,9 +31,3 @@
 .ingredientsList::-webkit-scrollbar-thumb {
   background-color: rgba(133, 133, 173, 1); /* color of the scroll thumb */
 }
-
-.ingredientsListItem {
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-}
