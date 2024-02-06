@@ -14,12 +14,13 @@ export const ApiService = {
       });
   },
 
-  async createOrder() {
+  async createOrder(idList: string[]) {
     return fetch(`${BASE_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
+      body: JSON.stringify({ ingredients: idList }),
     })
       .then(checkReponse)
       .then((data: OrderResponse) => {

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Ingredient } from "../../types/Ingredient";
 import { OrderResponse } from "../../types/response";
-import { fetchIngredients } from "../actions";
+import { fetchIngredients, createOrder } from "../actions";
 
 export interface IConstructorItem extends Ingredient {
   id: string;
@@ -20,6 +20,8 @@ export interface ingredientState {
   };
   currentIngredient: Ingredient | null;
   order: OrderResponse | null;
+  orderRequest: boolean;
+  orderFailed: boolean;
 }
 
 const initialState: ingredientState = {
@@ -32,7 +34,10 @@ const initialState: ingredientState = {
     items: [],
   },
   currentIngredient: null,
+
   order: null,
+  orderRequest: false,
+  orderFailed: false,
 };
 
 export const ingredientSlice = createSlice({
@@ -78,6 +83,9 @@ export const ingredientSlice = createSlice({
           (item) => item.id !== action.payload.id
         );
     },
+    resetConstructorItems: (state) => {
+      state.constructorIngredients = initialState.constructorIngredients;
+    },
   },
   extraReducers(builder) {
     builder
@@ -93,6 +101,19 @@ export const ingredientSlice = createSlice({
       .addCase(fetchIngredients.rejected, (state) => {
         state.ingredientsRequest = false;
         state.ingredientsFailed = true;
+      })
+      .addCase(createOrder.pending, (state) => {
+        state.orderRequest = true;
+        state.orderFailed = false;
+      })
+      .addCase(createOrder.fulfilled, (state, { payload }) => {
+        state.orderRequest = false;
+        state.orderFailed = false;
+        state.order = payload;
+      })
+      .addCase(createOrder.rejected, (state) => {
+        state.orderRequest = false;
+        state.orderFailed = true;
       });
   },
 });
@@ -102,6 +123,7 @@ export const {
   setConstructorIngredients,
   sortConstructorIngredients,
   deleteConstructorIngredient,
+  resetConstructorItems,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;
