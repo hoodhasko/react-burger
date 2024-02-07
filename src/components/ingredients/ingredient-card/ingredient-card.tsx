@@ -1,25 +1,57 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDrag } from "react-dnd";
 
 import { Ingredient } from "../../../types/Ingredient";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { setCurrentIngredient } from "../../../services";
 
 import styles from "./ingredient-card.module.css";
 
 interface BurgerIngredientCardProps {
   ingredient: Ingredient;
-  onClick: () => void;
 }
 
 export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
   ingredient,
-  onClick,
 }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  const { bun, items } = useAppSelector(
+    (state) => state.burgerConstructor.constructorIngredients
+  );
+  const dispatch = useAppDispatch();
+
+  const count = useMemo(() => {
+    if (ingredient.type === "bun") {
+      return ingredient._id === bun?._id ? 1 : 0;
+    } else {
+      return items.filter((item) => item._id === ingredient._id).length;
+    }
+  }, [ingredient, bun, items]);
+
+  const ingredientClickHandler = () => {
+    dispatch(setCurrentIngredient(ingredient));
+  };
+
   return (
-    <div className={styles.ingredientCard} onClick={onClick}>
-      <Counter count={1} size="default" extraClass="m-1" />
+    <div
+      ref={drag}
+      className={styles.ingredientCard}
+      onClick={ingredientClickHandler}
+    >
+      {Boolean(count) && (
+        <Counter count={count} size="default" extraClass="m-1" />
+      )}
 
       <img
         src={ingredient.image}

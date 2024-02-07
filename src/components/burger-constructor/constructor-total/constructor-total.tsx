@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Button,
   CurrencyIcon,
@@ -6,6 +6,10 @@ import {
 
 import { Modal } from "../../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { createOrder } from "../../../services/actions";
+import { resetConstructorItems } from "../../../services";
+
 import styles from "./constructor-total.module.css";
 
 interface ConstructorTotalProps {
@@ -15,11 +19,35 @@ interface ConstructorTotalProps {
 export const ConstructorTotal: FC<ConstructorTotalProps> = ({ total }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const {
+    constructorIngredients: { bun, items },
+  } = useAppSelector((state) => state.burgerConstructor);
+  const { order } = useAppSelector((state) => state.order);
+
+  const dispatch = useAppDispatch();
+
+  const createOrderHandler = () => {
+    if (bun) {
+      dispatch(
+        createOrder([bun._id, ...items.map((item) => item._id), bun._id])
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (order) {
+      dispatch(resetConstructorItems());
+      setIsOpen(true);
+    }
+  }, [order]);
+
   return (
     <>
-      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <OrderDetails />
-      </Modal>
+      {order && (
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+          <OrderDetails orderNumber={order.order.number} />
+        </Modal>
+      )}
 
       <div className={styles.container}>
         <div className={styles.totalPriceContainer}>
@@ -31,7 +59,7 @@ export const ConstructorTotal: FC<ConstructorTotalProps> = ({ total }) => {
           type="primary"
           size="large"
           extraClass={styles.button}
-          onClick={() => setIsOpen(true)}
+          onClick={createOrderHandler}
         >
           Оформить заказ
         </Button>

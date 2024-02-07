@@ -1,62 +1,98 @@
-import { FC, useState } from "react";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, useMemo } from "react";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDrop } from "react-dnd";
 
 import { ConstructorTotal } from "./constructor-total/constructor-total";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import {
+  deleteConstructorIngredient,
+  setConstructorIngredients,
+} from "../../services";
 import { Ingredient } from "../../types/Ingredient";
-import { Modal } from "../modal/modal";
-import { OrderDetails } from "./order-details/order-details";
+import { ConstructorEmptyElement } from "./constructor-empty-element/constructor-empty-element";
+import { ConstructorItem } from "./constructor-item/constructor-item";
 
 import styles from "./burger-constructor.module.css";
 
-interface BurgerConstructorProps {
-  data: Ingredient[];
-}
+interface BurgerConstructorProps {}
 
-export const BurgerConstructor: FC<BurgerConstructorProps> = ({ data }) => {
+export const BurgerConstructor: FC<BurgerConstructorProps> = ({}) => {
+  const constructorIngredients = useAppSelector(
+    (state) => state.burgerConstructor.constructorIngredients
+  );
+  const dispatch = useAppDispatch();
+
+  const [_, drop] = useDrop<Ingredient>({
+    accept: "ingredient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      dispatch(setConstructorIngredients(item));
+    },
+  });
+
+  const deleteIngredientHandler = (id: string) => {
+    dispatch(deleteConstructorIngredient({ id }));
+  };
+
+  const totalPrice = useMemo(() => {
+    const bunsPrice = (constructorIngredients.bun?.price ?? 0) * 2;
+
+    return constructorIngredients.items.reduce((acc, curr) => {
+      return acc + curr.price;
+    }, bunsPrice);
+  }, [constructorIngredients]);
   return (
-    <section className={styles.container}>
+    <section ref={drop} className={styles.container}>
       <div className={styles.ingredientsContainer}>
         <div className="pl-8 pr-4">
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          />
+          {constructorIngredients.bun ? (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${constructorIngredients.bun.name} (низ)`}
+              price={constructorIngredients.bun.price}
+              thumbnail={constructorIngredients.bun.image}
+            />
+          ) : (
+            <ConstructorEmptyElement type="top" />
+          )}
         </div>
 
-        <ul className={styles.ingredientsList}>
-          {data
-            .filter((ingredient) => ingredient.type !== "bun")
-            .map((ingredient) => (
-              <li key={ingredient._id} className={styles.ingredientsListItem}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  extraClass="ml-2"
-                  text={ingredient.name}
-                  price={50}
-                  thumbnail={ingredient.image}
-                />
-              </li>
+        {constructorIngredients.items.length > 0 ? (
+          <ul className={styles.ingredientsList}>
+            {constructorIngredients.items.map((ingredient, index) => (
+              <ConstructorItem
+                key={ingredient.id}
+                ingredient={ingredient}
+                index={index}
+                onDelete={deleteIngredientHandler}
+              />
             ))}
-        </ul>
+          </ul>
+        ) : (
+          <div className="pl-4">
+            <ConstructorEmptyElement />
+          </div>
+        )}
 
         <div className="pl-8 pr-4">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          />
+          {constructorIngredients.bun ? (
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${constructorIngredients.bun.name} (низ)`}
+              price={constructorIngredients.bun.price}
+              thumbnail={constructorIngredients.bun.image}
+            />
+          ) : (
+            <ConstructorEmptyElement type="bottom" />
+          )}
         </div>
       </div>
 
-      <ConstructorTotal total={610} />
+      <ConstructorTotal total={totalPrice} />
     </section>
   );
 };

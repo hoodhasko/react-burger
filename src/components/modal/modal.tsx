@@ -7,12 +7,17 @@ import { ModalOverlay } from "./modal-overlay/modal-overlay";
 import styles from "./modal.module.css";
 
 interface ModalProps extends PropsWithChildren {
-  open: boolean;
   onClose: () => void;
+  open?: boolean;
   title?: string;
 }
 
-export const Modal: FC<ModalProps> = ({ open, onClose, title, children }) => {
+export const Modal: FC<ModalProps> = ({
+  open = true,
+  onClose,
+  title,
+  children,
+}) => {
   const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
   const escHandler = (event: KeyboardEvent) => {

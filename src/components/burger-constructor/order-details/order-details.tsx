@@ -1,12 +1,17 @@
+import { FC } from "react";
 import { CheckSVG } from "../../../assets/svg/check-svg";
 import { DoneBackgroundSVG } from "../../../assets/svg/done-background-svg";
 
 import styles from "./order-details.module.css";
 
-export const OrderDetails = () => {
+interface OrderDetailsProps {
+  orderNumber: number;
+}
+
+export const OrderDetails: FC<OrderDetailsProps> = ({ orderNumber }) => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.orderNumber}>034536</h2>
+      <h2 className={styles.orderNumber}>{orderNumber}</h2>
 
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
 
