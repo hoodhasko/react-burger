@@ -27,7 +27,7 @@ export const BurgerIngredientCard: FC<BurgerIngredientCardProps> = ({
   }));
 
   const { bun, items } = useAppSelector(
-    (state) => state.ingredient.constructorIngredients
+    (state) => state.burgerConstructor.constructorIngredients
   );
   const dispatch = useAppDispatch();
 

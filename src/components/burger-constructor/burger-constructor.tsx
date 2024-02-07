@@ -18,7 +18,7 @@ interface BurgerConstructorProps {}
 
 export const BurgerConstructor: FC<BurgerConstructorProps> = ({}) => {
   const constructorIngredients = useAppSelector(
-    (state) => state.ingredient.constructorIngredients
+    (state) => state.burgerConstructor.constructorIngredients
   );
   const dispatch = useAppDispatch();
 
@@ -37,17 +37,12 @@ export const BurgerConstructor: FC<BurgerConstructorProps> = ({}) => {
   };
 
   const totalPrice = useMemo(() => {
-    const ingredientsPrice = constructorIngredients.items.reduce(
-      (acc, curr) => {
-        return acc + curr.price;
-      },
-      0
-    );
     const bunsPrice = (constructorIngredients.bun?.price ?? 0) * 2;
 
-    return ingredientsPrice + bunsPrice;
+    return constructorIngredients.items.reduce((acc, curr) => {
+      return acc + curr.price;
+    }, bunsPrice);
   }, [constructorIngredients]);
-
   return (
     <section ref={drop} className={styles.container}>
       <div className={styles.ingredientsContainer}>

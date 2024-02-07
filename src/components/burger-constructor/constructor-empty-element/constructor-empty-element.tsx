@@ -10,14 +10,12 @@ export const ConstructorEmptyElement: FC<ConstructorEmptyElementProps> = ({
   type,
 }) => {
   return (
-    <div style={{ display: "flex" }}>
-      <ConstructorElement
-        type={type}
-        text=""
-        price={0}
-        thumbnail={""}
-        extraClass={styles.ingredientsListItemEmpty}
-      />
-    </div>
+    <ConstructorElement
+      type={type}
+      text=""
+      price={0}
+      thumbnail={""}
+      extraClass={styles.ingredientsListItemEmpty}
+    />
   );
 };

@@ -6,7 +6,6 @@ import {
 
 import { Modal } from "../../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
-import { useFetchCreateOrder } from "../../../hooks/useFetchCreateOrder";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { createOrder } from "../../../services/actions";
 import { resetConstructorItems } from "../../../services";
@@ -22,8 +21,8 @@ export const ConstructorTotal: FC<ConstructorTotalProps> = ({ total }) => {
 
   const {
     constructorIngredients: { bun, items },
-    order,
-  } = useAppSelector((state) => state.ingredient);
+  } = useAppSelector((state) => state.burgerConstructor);
+  const { order } = useAppSelector((state) => state.order);
 
   const dispatch = useAppDispatch();
 
@@ -34,12 +33,6 @@ export const ConstructorTotal: FC<ConstructorTotalProps> = ({ total }) => {
       );
     }
   };
-
-  const { getData, data, isError, isLoading } = useFetchCreateOrder([
-    "643d69a5c3f7b9001cfa093c",
-    "643d69a5c3f7b9001cfa0941",
-    "643d69a5c3f7b9001cfa093c",
-  ]);
 
   useEffect(() => {
     if (order) {

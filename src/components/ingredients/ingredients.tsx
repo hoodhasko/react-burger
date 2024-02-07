@@ -17,8 +17,9 @@ export const BurgerIngredients: FC<BurgerIngredientsProps> = ({}) => {
   const [currentTab, setCurrentTab] = useState<IngredientType>(GroupTypes[0]);
   const groupRef = useRef<HTMLDivElement>(null);
 
-  const { ingredients, currentIngredient } = useAppSelector(
-    (state) => state.ingredient
+  const { ingredients } = useAppSelector((state) => state.ingredient);
+  const { currentIngredient } = useAppSelector(
+    (state) => state.ingredientsDetail
   );
 
   const dispatch = useAppDispatch();
